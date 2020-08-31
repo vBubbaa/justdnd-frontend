@@ -1,117 +1,86 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
+    <!-- Side Bar -->
+    <v-navigation-drawer v-model="drawer" fixed app temporary>
       <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
+        <v-list-item>nav item</v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
+    <!-- Main Navbar -->
+    <v-app-bar app color="#000C14">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      <nuxt-link to="/" class="default-link">
+        <v-toolbar-title v-text="title" />
+      </nuxt-link>
     </v-app-bar>
     <v-main>
-      <v-container>
+      <div class="main-wrap">
         <nuxt />
-      </v-container>
+      </div>
     </v-main>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer
-      :absolute="!fixed"
-      app
-    >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+    <v-divider></v-divider>
+    <!-- Footer -->
+    <v-footer :absolute="!fixed" app color="#000C14">
+      <v-container class="pa-0" fluid>
+        <v-row justify="center" class="text-center">
+          <v-col cols="12">
+            <!-- Contact links -->
+            <a href target="_blank">
+              <v-btn class="mx-4" icon>
+                <v-icon size="30px" color="#06ba63">mdi-discord</v-icon>
+              </v-btn>
+            </a>
+          </v-col>
+        </v-row>
+        <v-divider></v-divider>
+        <!-- By yours, truly. -->
+        <v-row justify="center" class="text-center">
+          <v-col cols="12">
+            A project by
+            <a href="https://twitter.com/VBubbaa" target="_blank">vBubbaa</a>
+            <v-icon color="#ed254e">mdi-heart</v-icon>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-footer>
   </v-app>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      clipped: false,
       drawer: false,
       fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
-    }
-  }
-}
+      title: "JustDnD",
+    };
+  },
+};
 </script>
+
+<style scoped>
+.main-wrap {
+  width: 100%;
+  height: 100%;
+}
+
+.main-wrap {
+  background-color: #000c14;
+}
+</style>
+
+<style>
+/* Default anchor styles */
+a {
+  color: #06ba63 !important;
+  text-decoration: none !important;
+}
+a:hover {
+  font-weight: bolder;
+}
+/* Active links red + bold */
+.nuxt-link-active {
+  color: #06ba63 !important;
+  font-weight: bold !important;
+}
+</style>
