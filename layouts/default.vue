@@ -12,6 +12,22 @@
       <nuxt-link to="/" class="default-link">
         <v-toolbar-title v-text="title" />
       </nuxt-link>
+      <v-spacer />
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" color="#ffffff" outlined rounded>
+            User
+            <v-icon medium>mdi-account-circle</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item>
+            <nuxt-link to="/user/usr">
+              <v-btn text>Profile</v-btn>
+            </nuxt-link>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-main>
       <div class="main-wrap">
@@ -72,13 +88,13 @@ export default {
 <style>
 /* Default anchor styles */
 a {
-  color: #06ba63 !important;
+  color: #ffffff !important;
   text-decoration: none !important;
 }
 a:hover {
   font-weight: bolder;
 }
-/* Active links red + bold */
+/* Active links green + bold */
 .nuxt-link-active {
   color: #06ba63 !important;
   font-weight: bold !important;
