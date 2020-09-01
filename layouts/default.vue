@@ -13,10 +13,10 @@
         <v-toolbar-title v-text="title" />
       </nuxt-link>
       <v-spacer />
-      <v-menu offset-y>
+      <v-menu offset-y v-if="this.$auth.loggedIn">
         <template v-slot:activator="{ on, attrs }">
           <v-btn v-bind="attrs" v-on="on" color="#ffffff" outlined rounded>
-            User
+            {{ $auth.user.username }}
             <v-icon medium>mdi-account-circle</v-icon>
           </v-btn>
         </template>
@@ -24,6 +24,11 @@
           <v-list-item>
             <nuxt-link to="/user/usr">
               <v-btn text>Profile</v-btn>
+            </nuxt-link>
+          </v-list-item>
+          <v-list-item>
+            <nuxt-link to="/logout">
+              <v-btn text>Logout</v-btn>
             </nuxt-link>
           </v-list-item>
         </v-list>
@@ -68,9 +73,12 @@ export default {
     return {
       drawer: false,
       fixed: false,
-      title: "JustDnD",
+      title: "JustDnD"
     };
   },
+  created() {
+    console.log(this.$auth);
+  }
 };
 </script>
 
