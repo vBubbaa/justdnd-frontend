@@ -33,6 +33,9 @@
           </v-list-item>
         </v-list>
       </v-menu>
+      <v-btn color="#ffffff" text v-else>
+        <nuxt-link to="/login">Login</nuxt-link>
+      </v-btn>
     </v-app-bar>
     <v-main>
       <div class="main-wrap">
@@ -73,12 +76,12 @@ export default {
     return {
       drawer: false,
       fixed: false,
-      title: "JustDnD"
+      title: "JustDnD",
     };
   },
   created() {
     console.log(this.$auth);
-  }
+  },
 };
 </script>
 

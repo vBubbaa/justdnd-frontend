@@ -20,21 +20,21 @@
               label="Password"
               required
             ></v-text-field>
+            <v-text-field
+              filled
+              color="#06ba63"
+              v-model="passwordCheck"
+              :rules="[rules.passwordRules, passwordChecker]"
+              label="Password"
+              required
+            ></v-text-field>
 
             <v-row justify="center" class="create-btn">
               <v-col cols="12">
-                <v-btn color="#06ba63" width="100%" class="mr-4" @click.prevent="login()">
-                  Login
+                <v-btn color="#06ba63" width="100%" class="mr-4" @click.prevent="register()">
+                  Register
                   <v-icon>mdi-sword-cross</v-icon>
                 </v-btn>
-              </v-col>
-            </v-row>
-            <v-row justify="center" class="text-center">
-              <v-col>
-                <span>
-                  Need an account?
-                  <nuxt-link :to="{ name: 'register' }" class="link">Register</nuxt-link>
-                </span>
               </v-col>
             </v-row>
           </v-form>
@@ -46,25 +46,42 @@
 
 <script>
 export default {
-  name: "login",
+  name: "register",
+  auth: false,
   data: function () {
     return {
       user: {},
+      passwordCheck: "",
       valid: true,
       rules: {
-        usernameRules: [(v) => !!v || "Username is required"],
+        usernameRules: [
+          (v) => !!v || "Username is required",
+          (v) =>
+            (v && v.length <= 120) || "Name must be 150 characters or less.",
+        ],
         passwordRules: [(v) => !!v || "Password is required"],
       },
     };
   },
   methods: {
-    async login() {
-      try {
-        await this.$auth.loginWith("local", { data: this.user });
-        console.log("success login");
-      } catch (err) {
-        console.log(err);
+    async register() {
+      if (this.$refs.form.validate()) {
+        return this.$axios
+          .$post(`http://127.0.0.1:8000/api/user/register/`, this.user)
+          .then((res) => {
+            this.$router.push({
+              name: "index",
+            });
+          });
       }
+    },
+  },
+
+  computed: {
+    passwordChecker() {
+      return (
+        this.user.password === this.passwordCheck || "Passwords do not match"
+      );
     },
   },
 };
@@ -74,14 +91,5 @@ export default {
 .creator-base {
   padding: 3%;
   border-radius: 10px;
-}
-.add-feat {
-  padding-bottom: 10px;
-}
-.create-btn {
-  padding-top: 10px;
-}
-.link {
-  color: #06ba63 !important;
 }
 </style>
