@@ -29,7 +29,33 @@
             type="number"
             label="Hit Points"
           ></v-text-field>
-
+          <div v-for="(feat, i) in character.charactersheetfeat" :key="i">
+            <v-text-field
+              :label="feat.featName"
+              v-model="feat.featName"
+              filled
+              color="#06ba63"
+              placeholder="Feat Name"
+            >
+              <v-btn slot="append" class="ma-2" color="#de7679" dark @click="removeFeat(i)">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </v-text-field>
+            <v-text-field
+              placeholder="Feat Value"
+              :label="feat.featVal"
+              v-model="feat.featVal"
+              type="number"
+              filled
+              color="#06ba63"
+            ></v-text-field>
+          </div>
+          <v-row justify="center">
+            <v-btn class="ma-2" color="#06ba63" dark @click="addFeat()">
+              Add Feat
+              <v-icon>mdi-plus-circle-outline</v-icon>
+            </v-btn>
+          </v-row>
           <v-row justify="center" class="create-btn">
             <v-btn color="#06ba63" width="80%" class="mr-4" @click.prevent="postCharacter()">
               Create Character
@@ -45,12 +71,18 @@
 <script>
 export default {
   name: "createcharactersheet",
-  data: function () {
+  data() {
     return {
       character: {
         name: null,
         bio: null,
         hp: null,
+        charactersheetfeat: [
+          {
+            featName: "",
+            featVal: "",
+          },
+        ],
       },
       valid: true,
       rules: {
@@ -80,9 +112,22 @@ export default {
             this.character
           )
           .then((res) => {
-            console.log(res);
+            this.$router.push({
+              name: "user-slug",
+              params: { slug: this.$auth.user.username },
+            });
           });
       }
+    },
+
+    addFeat() {
+      this.character.charactersheetfeat.push({
+        featName: "",
+        featValue: "",
+      });
+    },
+    removeFeat(index) {
+      this.character.charactersheetfeat.splice(index, 1);
     },
   },
 };

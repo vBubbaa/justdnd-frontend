@@ -2,49 +2,51 @@
   <v-container>
     <v-container>
       <v-row justify="center">
-        <v-sheet class="creator-base">
-          <v-form ref="form" v-model="valid" lazy-validation>
-            <v-text-field
-              filled
-              color="#06ba63"
-              v-model="character.name"
-              :rules="rules.nameRules"
-              :counter="120"
-              label="Character Name"
-              required
-            ></v-text-field>
-            <v-textarea
-              v-model="character.bio"
-              auto-grow
-              filled
-              color="#06ba63"
-              :rules="rules.bioRules"
-              :counter="300"
-              label="Bio"
-              rows="4"
-            ></v-textarea>
-            <v-text-field
-              filled
-              color="#06ba63"
-              v-model="character.hp"
-              type="number"
-              label="Hit Points"
-            ></v-text-field>
+        <v-col>
+          <v-sheet class="creator-base">
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-text-field
+                filled
+                color="#06ba63"
+                v-model="character.name"
+                :rules="rules.nameRules"
+                :counter="120"
+                label="Character Name"
+                required
+              ></v-text-field>
+              <v-textarea
+                v-model="character.bio"
+                auto-grow
+                filled
+                color="#06ba63"
+                :rules="rules.bioRules"
+                :counter="300"
+                label="Bio"
+                rows="4"
+              ></v-textarea>
+              <v-text-field
+                filled
+                color="#06ba63"
+                v-model="character.hp"
+                type="number"
+                label="Hit Points"
+              ></v-text-field>
 
-            <v-row justify="center" class="create-btn">
-              <v-btn color="#06ba63" width="80%" class="mr-4" @click.prevent="updateCharacter()">
-                Update Character
-                <v-icon>mdi-sword-cross</v-icon>
-              </v-btn>
-            </v-row>
-            <v-row justify="center" class="create-btn">
-              <v-btn color="#ed254e" width="80%" class="mr-4" @click.prevent="deleteCharacter()">
-                Delete Character
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </v-row>
-          </v-form>
-        </v-sheet>
+              <v-row justify="center" class="create-btn">
+                <v-btn color="#06ba63" width="80%" class="mr-4" @click.prevent="updateCharacter()">
+                  Update Character
+                  <v-icon>mdi-sword-cross</v-icon>
+                </v-btn>
+              </v-row>
+              <v-row justify="center" class="create-btn">
+                <v-btn color="#ed254e" width="80%" class="mr-4" @click.prevent="deleteCharacter()">
+                  Delete Character
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </v-row>
+            </v-form>
+          </v-sheet>
+        </v-col>
       </v-row>
     </v-container>
   </v-container>
@@ -82,7 +84,10 @@ export default {
             this.character
           )
           .then((res) => {
-            console.log(res);
+            this.$router.push({
+              name: "user-slug",
+              params: { slug: this.$auth.user.username },
+            });
           });
       }
     },
@@ -92,7 +97,12 @@ export default {
         .$delete(
           `http://127.0.0.1:8000/api/sheets/charactersheet/${this.character.id}/delete/`
         )
-        .then(this.$router.push({ name: "index" }));
+        .then(
+          this.$router.push({
+            name: "user-slug",
+            params: { slug: this.$auth.user.username },
+          })
+        );
     },
   },
   async asyncData({ $axios, params }) {

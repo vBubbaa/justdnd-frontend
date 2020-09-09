@@ -14,7 +14,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="4" v-for="c in characters" :key="c.id">
+      <v-col cols="12" sm="12" md="6" lg="4" xl="4" v-for="c in characters" :key="c.id">
         <MiniCharacterCard :character="c" />
       </v-col>
     </v-row>

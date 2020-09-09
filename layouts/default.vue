@@ -22,7 +22,7 @@
         </template>
         <v-list>
           <v-list-item>
-            <nuxt-link to="/user/usr">
+            <nuxt-link :to="'/user/' + $auth.user.username">
               <v-btn text>Profile</v-btn>
             </nuxt-link>
           </v-list-item>
