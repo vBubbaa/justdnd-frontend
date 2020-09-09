@@ -30,8 +30,10 @@ export default {
     MiniCharacterCard,
   },
 
-  async asyncData({ $axios }) {
-    let characters = await $axios.$get("/api/sheets/charactersheet/list/");
+  async asyncData({ $axios, $auth }) {
+    let characters = await $axios.$get(
+      `http://127.0.0.1:8000/api/sheets/charactersheetuser/list/${$auth.user.pk}`
+    );
 
     return {
       characters: characters,
