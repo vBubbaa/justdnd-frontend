@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <v-row v-if="error" justify="center">
+      <v-col cols="10">
+        <v-alert type="error">Invalid signup credentials!</v-alert>
+      </v-col>
+    </v-row>
     <v-row justify="center">
       <v-col cols="10">
         <v-sheet class="creator-base">
@@ -17,6 +22,9 @@
               color="#06ba63"
               v-model="user.password"
               :rules="rules.passwordRules"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show ? 'text' : 'password'"
+              @click:append="show = !show"
               label="Password"
               required
             ></v-text-field>
@@ -25,6 +33,7 @@
               color="#06ba63"
               v-model="passwordCheck"
               :rules="[rules.passwordRules, passwordChecker]"
+              :type="show ? 'text' : 'password'"
               label="Password"
               required
             ></v-text-field>
@@ -50,6 +59,8 @@ export default {
   auth: false,
   data: function () {
     return {
+      error: false,
+      show: false,
       user: {},
       passwordCheck: "",
       valid: true,
@@ -72,6 +83,9 @@ export default {
             this.$router.push({
               name: "index",
             });
+          })
+          .catch((err) => {
+            this.error = true;
           });
       }
     },

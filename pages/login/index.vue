@@ -17,6 +17,9 @@
               color="#06ba63"
               v-model="user.password"
               :rules="rules.passwordRules"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show ? 'text' : 'password'"
+              @click:append="show = !show"
               label="Password"
               required
             ></v-text-field>
@@ -49,6 +52,7 @@ export default {
   name: "login",
   data: function () {
     return {
+      show: false,
       user: {},
       valid: true,
       rules: {
