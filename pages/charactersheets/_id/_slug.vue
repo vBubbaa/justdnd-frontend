@@ -126,10 +126,7 @@ export default {
       // Check if the fields are valid, then post the character
       if (this.$refs.form.validate()) {
         return this.$axios
-          .$put(
-            `http://127.0.0.1:8000/api/sheets/charactersheet/${this.character.id}/`,
-            this.character
-          )
+          .$put(`/sheets/charactersheet/${this.character.id}/`, this.character)
           .then((res) => {
             this.$router.push({
               name: "user-slug",
@@ -170,9 +167,7 @@ export default {
     },
   },
   async asyncData({ $axios, params }) {
-    let character = await $axios.$get(
-      "/api/sheets/charactersheet/" + params.id
-    );
+    let character = await $axios.$get("/sheets/charactersheet/" + params.id);
 
     return {
       character: character,

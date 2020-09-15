@@ -78,7 +78,7 @@ export default {
     async register() {
       if (this.$refs.form.validate()) {
         return this.$axios
-          .$post(`http://127.0.0.1:8000/api/user/register/`, this.user)
+          .$post(`/user/register/`, this.user)
           .then((res) => {
             this.$router.push({
               name: "index",

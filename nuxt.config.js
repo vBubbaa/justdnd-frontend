@@ -48,7 +48,7 @@ export default {
    ** Axios object
    */
   axios: {
-    baseURL: "http://127.0.0.1:8000"
+    baseURL: "http://127.0.0.1:8000/api"
   },
   /*
    ** Auth Config
@@ -58,13 +58,13 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: "/api/user/obtaintoken/",
+            url: "/user/obtaintoken/",
             method: "post",
             propertyName: "token"
           },
           logout: {},
           user: {
-            url: "/api/user/userdata/",
+            url: "/user/userdata/",
             method: "get",
             propertyName: false
           }

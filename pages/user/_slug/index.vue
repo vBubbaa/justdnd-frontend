@@ -15,7 +15,7 @@
     </v-row>
     <v-row>
       <v-col cols="12" sm="12" md="6" lg="4" xl="4" v-for="c in characters" :key="c.id">
-        <MiniCharacterCard :character="c" />
+        <MiniCharacterCard :character="c" @deletecharacter="deleteCharacter" />
       </v-col>
     </v-row>
   </v-container>
@@ -26,13 +26,36 @@ import MiniCharacterCard from "../../../components/sheets/MiniCharacterCard";
 export default {
   name: "userdetail",
 
+  data() {
+    return {
+      characters: [],
+    };
+  },
+
   components: {
     MiniCharacterCard,
   },
 
+  methods: {
+    deleteCharacter(e) {
+      console.log(e);
+      this.$axios
+        .$delete(
+          `http://127.0.0.1:8000/api/sheets/charactersheet/${e.id}/delete/`
+        )
+        .then(
+          this.characters.splice(
+            this.characters.findIndex(function (i) {
+              return i.id === e.id;
+            })
+          )
+        );
+    },
+  },
+
   async asyncData({ $axios, $auth }) {
     let characters = await $axios.$get(
-      `http://127.0.0.1:8000/api/sheets/charactersheetuser/list/${$auth.user.pk}`
+      `/sheets/charactersheetuser/list/${$auth.user.pk}`
     );
 
     return {
