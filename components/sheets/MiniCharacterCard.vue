@@ -1,10 +1,11 @@
 <template>
-  <v-card class="mx-auto" max-width="344" height="200" color="#ffffff">
+  <v-card class="mx-auto d-flex flex-column" max-width="344" height="300" color="#ffffff">
     <v-card-text>
       <div class="card-text">{{ character.name }}</div>
       <v-divider></v-divider>
-      <div class="card-text">{{ character.bio }}</div>
+      <div class="card-text bio">{{ character.bio }}</div>
     </v-card-text>
+    <v-spacer></v-spacer>
     <v-card-actions>
       <nuxt-link
         :to="{ name: 'charactersheets-id-slug', params: { id: character.id, slug: character.slug } }"
