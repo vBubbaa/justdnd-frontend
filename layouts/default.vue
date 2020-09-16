@@ -76,12 +76,9 @@ export default {
     return {
       drawer: false,
       fixed: false,
-      title: "JustDnD",
+      title: "JustDnD"
     };
-  },
-  created() {
-    console.log(this.$auth);
-  },
+  }
 };
 </script>
 

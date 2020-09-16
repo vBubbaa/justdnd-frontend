@@ -38,7 +38,13 @@
                 color="#06ba63"
                 placeholder="Feat Name"
               >
-                <v-btn slot="append" class="ma-2" color="#de7679" dark @click="removeFeat(i)">
+                <v-btn
+                  slot="append"
+                  class="ma-2"
+                  color="#de7679"
+                  dark
+                  @click="removeFeat(i)"
+                >
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </v-text-field>
@@ -59,13 +65,23 @@
             </v-row>
 
             <v-row justify="center" class="create-btn">
-              <v-btn color="#06ba63" width="80%" class="mr-4" @click.prevent="updateCharacter()">
+              <v-btn
+                color="#06ba63"
+                width="80%"
+                class="mr-4"
+                @click.prevent="updateCharacter()"
+              >
                 Update Character
                 <v-icon>mdi-sword-cross</v-icon>
               </v-btn>
             </v-row>
             <v-row justify="center" class="create-btn">
-              <v-btn color="#ed254e" width="80%" class="mr-4" @click.prevent="deleteCharacter()">
+              <v-btn
+                color="#ed254e"
+                width="80%"
+                class="mr-4"
+                @click.prevent="deleteCharacter()"
+              >
                 Delete Character
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -91,7 +107,7 @@
         <v-col cols="6">{{ character.hp }}</v-col>
       </v-row>
       <v-row v-for="(feat, index) in character.charactersheetfeat" :key="index">
-        <v-col cols="6">{{ feat.featName}}</v-col>
+        <v-col cols="6">{{ feat.featName }}</v-col>
         <v-col cols="6">{{ feat.featVal }}</v-col>
       </v-row>
     </v-sheet>
@@ -101,24 +117,24 @@
 <script>
 export default {
   name: "charactersheetdetail",
-  data: function () {
+  auth: false,
+  data: function() {
     return {
       isOwner: false,
       valid: true,
       rules: {
         nameRules: [
-          (v) => !!v || "Name is required",
-          (v) =>
-            (v && v.length <= 120) || "Name must be less than 120 characters",
+          v => !!v || "Name is required",
+          v => (v && v.length <= 120) || "Name must be less than 120 characters"
         ],
         bioRules: [
-          (v) => {
+          v => {
             if (v)
               return v.length <= 300 || "Bio must be less that 300 characters";
             else return true;
-          },
-        ],
-      },
+          }
+        ]
+      }
     };
   },
   methods: {
@@ -127,10 +143,10 @@ export default {
       if (this.$refs.form.validate()) {
         return this.$axios
           .$put(`/sheets/charactersheet/${this.character.id}/`, this.character)
-          .then((res) => {
+          .then(res => {
             this.$router.push({
               name: "user-slug",
-              params: { slug: this.$auth.user.username },
+              params: { slug: this.$auth.user.username }
             });
           });
       }
@@ -144,14 +160,18 @@ export default {
         .then(
           this.$router.push({
             name: "user-slug",
-            params: { slug: this.$auth.user.username },
+            params: { slug: this.$auth.user.username }
           })
         );
     },
     // Check if the sheet belongs to the logged in user
     checkIsOwner() {
-      if (this.character.user == this.$auth.user.username) {
-        this.isOwner = true;
+      if (this.$auth.loggedIn) {
+        if (this.character.user == this.$auth.user.username) {
+          this.isOwner = true;
+        } else {
+          this.isOwner = false;
+        }
       } else {
         this.isOwner = false;
       }
@@ -159,23 +179,23 @@ export default {
     addFeat() {
       this.character.charactersheetfeat.push({
         featName: "",
-        featValue: "",
+        featValue: ""
       });
     },
     removeFeat(index) {
       this.character.charactersheetfeat.splice(index, 1);
-    },
+    }
   },
   async asyncData({ $axios, params }) {
     let character = await $axios.$get("/sheets/charactersheet/" + params.id);
 
     return {
-      character: character,
+      character: character
     };
   },
   mounted() {
     this.checkIsOwner();
-  },
+  }
 };
 </script>
 

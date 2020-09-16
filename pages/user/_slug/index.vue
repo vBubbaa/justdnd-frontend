@@ -3,10 +3,13 @@
     <v-row justify="center" class="text-center">
       <v-col cols="12">Characters</v-col>
     </v-row>
-    <v-row justify="center" class="text-center">
+    <v-row justify="center" class="text-center" v-if="checkIsOwner()">
       <v-col cols="12">
         <v-btn text outlined color="#ffffff">
-          <nuxt-link :to="{ name: 'charactersheets-create' }" class="create-link">
+          <nuxt-link
+            :to="{ name: 'charactersheets-create' }"
+            class="create-link"
+          >
             Create New Character
             <v-icon>mdi-sword-cross</v-icon>
           </nuxt-link>
@@ -14,7 +17,15 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" sm="12" md="6" lg="4" xl="4" v-for="c in characters" :key="c.id">
+      <v-col
+        cols="12"
+        sm="12"
+        md="6"
+        lg="4"
+        xl="4"
+        v-for="c in characters"
+        :key="c.id"
+      >
         <MiniCharacterCard :character="c" @deletecharacter="deleteCharacter" />
       </v-col>
     </v-row>
@@ -25,15 +36,16 @@
 import MiniCharacterCard from "../../../components/sheets/MiniCharacterCard";
 export default {
   name: "userdetail",
+  auth: false,
 
   data() {
     return {
-      characters: [],
+      characters: []
     };
   },
 
   components: {
-    MiniCharacterCard,
+    MiniCharacterCard
   },
 
   methods: {
@@ -45,23 +57,36 @@ export default {
         )
         .then(
           this.characters.splice(
-            this.characters.findIndex(function (i) {
+            this.characters.findIndex(function(i) {
               return i.id === e.id;
             })
           )
         );
     },
+
+    // Check if the sheet belongs to the logged in user
+    checkIsOwner() {
+      if (this.$auth.loggedIn) {
+        if (this.$route.params.slug == this.$auth.user.username) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    }
   },
 
-  async asyncData({ $axios, $auth }) {
+  async asyncData({ $axios, params }) {
     let characters = await $axios.$get(
-      `/sheets/charactersheetuser/list/${$auth.user.pk}`
+      `/sheets/charactersheetuser/list/${params.slug}`
     );
 
     return {
-      characters: characters,
+      characters: characters
     };
-  },
+  }
 };
 </script>
 
