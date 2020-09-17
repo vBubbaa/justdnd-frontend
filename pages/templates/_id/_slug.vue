@@ -66,6 +66,17 @@
                 <v-icon>mdi-sword-cross</v-icon>
               </v-btn>
             </v-row>
+            <v-row justify="center" class="create-btn">
+              <v-btn
+                color="#06ba63"
+                width="80%"
+                class="mr-4"
+                @click.prevent="createFromTemplate()"
+              >
+                Use this template
+                <v-icon>mdi-sword-cross</v-icon>
+              </v-btn>
+            </v-row>
           </v-form>
         </v-sheet>
       </v-col>
@@ -81,6 +92,19 @@
       <v-row v-for="(feat, index) in template.templatefeat" :key="index">
         <v-col cols="6">{{ feat.featName }}</v-col>
         <v-col cols="6">{{ feat.featVal }}</v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn
+            color="#06ba63"
+            width="80%"
+            class="mr-4"
+            @click.prevent="createFromTemplate()"
+          >
+            Use this template
+            <v-icon>mdi-sword-cross</v-icon>
+          </v-btn>
+        </v-col>
       </v-row>
     </v-sheet>
   </v-container>
@@ -157,6 +181,10 @@ export default {
     },
     removeFeat(index) {
       this.template.templatefeat.splice(index, 1);
+    },
+    createFromTemplate() {
+      this.$store.commit("SET_TEMPLATE_FEATS", this.template.templatefeat);
+      this.$router.push({ name: "charactersheets-create" });
     }
   },
   async asyncData({ $axios, params }) {

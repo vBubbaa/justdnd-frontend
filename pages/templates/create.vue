@@ -126,6 +126,14 @@ export default {
     removeFeat(index) {
       this.template.templatefeat.splice(index, 1);
     }
+  },
+
+  computed: {
+    templateFeats() {
+      if (this.$store.state.templateFeats.length > 0) {
+        return this.$state.templateFeats;
+      }
+    }
   }
 };
 </script>
