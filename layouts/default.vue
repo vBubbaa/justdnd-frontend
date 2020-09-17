@@ -3,7 +3,11 @@
     <!-- Side Bar -->
     <v-navigation-drawer v-model="drawer" fixed app temporary>
       <v-list>
-        <v-list-item>nav item</v-list-item>
+        <v-list-item>
+          <nuxt-link to="/templates">
+            Templates
+          </nuxt-link>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <!-- Main Navbar -->
