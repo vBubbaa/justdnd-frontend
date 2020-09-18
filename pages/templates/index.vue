@@ -1,17 +1,19 @@
 <template>
-  <div>
-    <v-container v-if="$fetchState.pending">
-      <v-row justify="center">
-        <v-col cols="12" class="text-center">Loading Templates</v-col>
-        <v-col cols="12" class="text-center">
-          <v-progress-circular :size="50" color="#06ba63" indeterminate></v-progress-circular>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container v-else>
-      <v-row>
-        <v-col cols="12" class="text-center">Template List</v-col>
-      </v-row>
+  <v-container>
+    <v-row>
+      <v-col cols="12" class="text-center">Template List</v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <v-text-field v-model="payload.search" @input="setSearchQuery()" color="#06ba63">
+          <template v-slot:label>
+            Search for templates
+            <v-icon style="vertical-align: middle">mdi-magnify</v-icon>
+          </template>
+        </v-text-field>
+      </v-col>
+    </v-row>
+    <div v-if="!$fetchState.pending">
       <v-row justify="center">
         <v-col cols="6" v-for="t in templates.data" :key="t.id" class="text-center">
           <TemplateSearchCard :template="t" />
@@ -28,8 +30,14 @@
           ></v-pagination>
         </v-col>
       </v-row>
-    </v-container>
-  </div>
+    </div>
+    <v-row justify="center" v-else>
+      <v-col cols="12" class="text-center">Loading Templates</v-col>
+      <v-col cols="12" class="text-center">
+        <v-progress-circular :size="50" color="#06ba63" indeterminate></v-progress-circular>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -64,18 +72,22 @@ export default {
         return 1;
       }
     },
+
+    setSearchQuery: function () {
+      this.payload.page = 1;
+      this.$fetch();
+    },
   },
 
   async fetch() {
-    if (this.payload.page == "") {
-      this.templates = await this.$axios.$get("/sheets/template/list/");
-    } else {
+    if (this.payload.search != "") {
       this.templates = await this.$axios.$get("/sheets/template/list/", {
         params: this.payload,
       });
+    } else {
+      this.templates = await this.$axios.$get("/sheets/template/list/");
     }
   },
-  fetchOnServer: true,
 };
 </script>
 
