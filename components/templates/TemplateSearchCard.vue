@@ -1,9 +1,7 @@
 <template>
   <v-card class="mx-auto" color="#1e1e1e" dark max-width="400">
     <v-card-title>
-      <v-icon large left>
-        mdi-sword
-      </v-icon>
+      <v-icon large left>mdi-sword</v-icon>
       <span class="title font-weight-light">{{ template.oneshot }}</span>
     </v-card-title>
     <v-divider></v-divider>
@@ -25,9 +23,16 @@
             <v-icon>mdi-heart</v-icon>
           </v-btn>
           <span class="subheading mr-2">0</span>
-          <v-btn icon color="#ffffff">
-            <v-icon class="mr-1">mdi-paperclip</v-icon>
+          <v-btn icon color="#ffffff" @click="copy()">
+            <v-icon>mdi-paperclip</v-icon>
           </v-btn>
+          <nuxt-link
+            :to="{ name: 'templates-id-slug', params: { 'id': template.id, 'slug': template.slug } }"
+          >
+            <v-btn icon color="#06ba63" @click="copy()">
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+          </nuxt-link>
         </v-row>
       </v-list-item>
     </v-card-actions>
@@ -38,8 +43,21 @@
 export default {
   name: "templatesearchcard",
   props: {
-    template: Object
-  }
+    template: Object,
+  },
+  methods: {
+    // Copies URL to clipboard once the copy button is clicked
+    copy: function () {
+      let dummy = document.createElement("input");
+      // change url for prod once we get the domain
+      let url = `https://justdnd.com/${this.template.id}/${this.template.slug}`;
+      document.body.appendChild(dummy);
+      dummy.value = url;
+      dummy.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummy);
+    },
+  },
 };
 </script>
 

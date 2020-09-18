@@ -37,13 +37,7 @@
               color="#06ba63"
               placeholder="Feat Name"
             >
-              <v-btn
-                slot="append"
-                class="ma-2"
-                color="#de7679"
-                dark
-                @click="removeFeat(i)"
-              >
+              <v-btn slot="append" class="ma-2" color="#de7679" dark @click="removeFeat(i)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-text-field>
@@ -63,12 +57,7 @@
             </v-btn>
           </v-row>
           <v-row justify="center" class="create-btn">
-            <v-btn
-              color="#06ba63"
-              width="80%"
-              class="mr-4"
-              @click.prevent="postCharacter()"
-            >
+            <v-btn color="#06ba63" width="80%" class="mr-4" @click.prevent="postCharacter()">
               Create Character
               <v-icon>mdi-sword-cross</v-icon>
             </v-btn>
@@ -91,24 +80,25 @@ export default {
         charactersheetfeat: [
           {
             featName: "",
-            featVal: ""
-          }
-        ]
+            featVal: "",
+          },
+        ],
       },
       valid: true,
       rules: {
         nameRules: [
-          v => !!v || "Name is required",
-          v => (v && v.length <= 120) || "Name must be less than 120 characters"
+          (v) => !!v || "Name is required",
+          (v) =>
+            (v && v.length <= 120) || "Name must be less than 120 characters",
         ],
         bioRules: [
-          v => {
+          (v) => {
             if (v)
               return v.length <= 300 || "Bio must be less that 300 characters";
             else return true;
-          }
-        ]
-      }
+          },
+        ],
+      },
     };
   },
 
@@ -121,10 +111,10 @@ export default {
             "http://127.0.0.1:8000/api/sheets/charactersheet/create/",
             this.character
           )
-          .then(res => {
+          .then((res) => {
             this.$router.push({
               name: "user-slug",
-              params: { slug: this.$auth.user.username }
+              params: { slug: this.$auth.user.username },
             });
           });
       }
@@ -133,19 +123,19 @@ export default {
     addFeat() {
       this.character.charactersheetfeat.push({
         featName: "",
-        featValue: ""
+        featValue: "",
       });
     },
     removeFeat(index) {
       this.character.charactersheetfeat.splice(index, 1);
-    }
+    },
   },
 
   created() {
     //  If we passed feats from a template, set the feats in local data, then clear them from the store
     if (this.templateFeats.length > 0) {
+      this.character.charactersheetfeat = [];
       for (const feat of this.templateFeats) {
-        this.character.charactersheetfeat = [];
         this.character.charactersheetfeat.push(feat);
         this.$store.commit("CLEAR_TEMPLATE_FEATS");
       }
@@ -155,8 +145,8 @@ export default {
   computed: {
     templateFeats() {
       return this.$store.state.templateFeats;
-    }
-  }
+    },
+  },
 };
 </script>
 
