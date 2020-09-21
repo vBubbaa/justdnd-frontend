@@ -4,13 +4,16 @@
       <v-col cols="12" class="text-center">Template List</v-col>
     </v-row>
     <v-row>
-      <v-col cols="12">
-        <v-text-field v-model="payload.search" @input="setSearchQuery()" color="#06ba63">
+      <v-col cols="10">
+        <v-text-field v-model="payload.search" color="#06ba63">
           <template v-slot:label>
             Search for templates
             <v-icon style="vertical-align: middle">mdi-magnify</v-icon>
           </template>
         </v-text-field>
+      </v-col>
+      <v-col cols="2">
+        <v-btn class="mr-4" @click="setSearchQuery()">submit</v-btn>
       </v-col>
     </v-row>
     <div v-if="!$fetchState.pending">
@@ -62,15 +65,8 @@ export default {
   methods: {
     nextPage(page) {
       this.payload.page = page;
+      console.log(page);
       this.$fetch();
-    },
-
-    numPages() {
-      if (this.templates.pagination.num_pages != null) {
-        return this.templates.pagination.num_pages;
-      } else {
-        return 1;
-      }
     },
 
     setSearchQuery: function () {
@@ -80,12 +76,16 @@ export default {
   },
 
   async fetch() {
-    if (this.payload.search != "") {
+    if (this.payload.page == "") {
+      console.log(this.payload);
+      this.templates = await this.$axios.$get("/sheets/template/list/", {
+        params: { page: 1, search: this.payload.search },
+      });
+    } else {
+      console.log(this.payload);
       this.templates = await this.$axios.$get("/sheets/template/list/", {
         params: this.payload,
       });
-    } else {
-      this.templates = await this.$axios.$get("/sheets/template/list/");
     }
   },
 };
