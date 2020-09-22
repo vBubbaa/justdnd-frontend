@@ -4,16 +4,18 @@
       <v-col cols="12" class="text-center">Template List</v-col>
     </v-row>
     <v-row>
-      <v-col cols="10">
-        <v-text-field v-model="payload.search" color="#06ba63">
+      <v-col cols="12">
+        <v-text-field v-model="payload.search" color="#06ba63" clearable>
           <template v-slot:label>
             Search for templates
             <v-icon style="vertical-align: middle">mdi-magnify</v-icon>
           </template>
         </v-text-field>
       </v-col>
-      <v-col cols="2">
-        <v-btn class="mr-4" @click="setSearchQuery()">submit</v-btn>
+    </v-row>
+    <v-row justify="center" class="text-center">
+      <v-col cols="12">
+        <v-btn class="mr-4" color="#06ba63" @click="setSearchQuery()">Submit</v-btn>
       </v-col>
     </v-row>
     <div v-if="!$fetchState.pending">

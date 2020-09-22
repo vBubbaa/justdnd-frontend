@@ -19,10 +19,6 @@
         </v-list-item-content>
 
         <v-row align="center" justify="end">
-          <v-btn icon color="#ffffff">
-            <v-icon>mdi-heart</v-icon>
-          </v-btn>
-          <span class="subheading mr-2">0</span>
           <v-btn icon color="#ffffff" @click="copy()">
             <v-icon>mdi-paperclip</v-icon>
           </v-btn>
