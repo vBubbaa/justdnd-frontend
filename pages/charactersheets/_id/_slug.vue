@@ -38,13 +38,7 @@
                 color="#06ba63"
                 placeholder="Feat Name"
               >
-                <v-btn
-                  slot="append"
-                  class="ma-2"
-                  color="#de7679"
-                  dark
-                  @click="removeFeat(i)"
-                >
+                <v-btn slot="append" class="ma-2" color="#de7679" dark @click="removeFeat(i)">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </v-text-field>
@@ -65,23 +59,13 @@
             </v-row>
 
             <v-row justify="center" class="create-btn">
-              <v-btn
-                color="#06ba63"
-                width="80%"
-                class="mr-4"
-                @click.prevent="updateCharacter()"
-              >
+              <v-btn color="#06ba63" width="80%" class="mr-4" @click.prevent="updateCharacter()">
                 Update Character
                 <v-icon>mdi-sword-cross</v-icon>
               </v-btn>
             </v-row>
             <v-row justify="center" class="create-btn">
-              <v-btn
-                color="#ed254e"
-                width="80%"
-                class="mr-4"
-                @click.prevent="deleteCharacter()"
-              >
+              <v-btn color="#ed254e" width="80%" class="mr-4" @click.prevent="deleteCharacter()">
                 Delete Character
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -92,21 +76,26 @@
     </v-row>
     <v-sheet class="creator-base" v-else>
       <v-row justify="center">
-        <v-col cols="12" class="text-center">{{ character.name }}</v-col>
+        <v-col cols="12" class="text-center name">{{ character.name }}</v-col>
         <v-divider></v-divider>
       </v-row>
       <v-divider></v-divider>
       <v-row>
-        <v-col cols="12">About: {{ character.bio }}</v-col>
+        <v-col cols="12" class="default-text">About: {{ character.bio }}</v-col>
       </v-row>
-      <v-row>
+      <v-divider></v-divider>
+      <v-row class="default-text">
         <v-col cols="6">
           Hitpoints
           <v-icon>mdi-bottle-tonic-plus</v-icon>
         </v-col>
         <v-col cols="6">{{ character.hp }}</v-col>
       </v-row>
-      <v-row v-for="(feat, index) in character.charactersheetfeat" :key="index">
+      <v-row
+        v-for="(feat, index) in character.charactersheetfeat"
+        :key="index"
+        class="default-text"
+      >
         <v-col cols="6">{{ feat.featName }}</v-col>
         <v-col cols="6">{{ feat.featVal }}</v-col>
       </v-row>
@@ -118,23 +107,24 @@
 export default {
   name: "charactersheetdetail",
   auth: false,
-  data: function() {
+  data: function () {
     return {
       isOwner: false,
       valid: true,
       rules: {
         nameRules: [
-          v => !!v || "Name is required",
-          v => (v && v.length <= 120) || "Name must be less than 120 characters"
+          (v) => !!v || "Name is required",
+          (v) =>
+            (v && v.length <= 120) || "Name must be less than 120 characters",
         ],
         bioRules: [
-          v => {
+          (v) => {
             if (v)
               return v.length <= 300 || "Bio must be less that 300 characters";
             else return true;
-          }
-        ]
-      }
+          },
+        ],
+      },
     };
   },
   methods: {
@@ -143,10 +133,10 @@ export default {
       if (this.$refs.form.validate()) {
         return this.$axios
           .$put(`/sheets/charactersheet/${this.character.id}/`, this.character)
-          .then(res => {
+          .then((res) => {
             this.$router.push({
               name: "user-slug",
-              params: { slug: this.$auth.user.username }
+              params: { slug: this.$auth.user.username },
             });
           });
       }
@@ -160,7 +150,7 @@ export default {
         .then(
           this.$router.push({
             name: "user-slug",
-            params: { slug: this.$auth.user.username }
+            params: { slug: this.$auth.user.username },
           })
         );
     },
@@ -179,23 +169,23 @@ export default {
     addFeat() {
       this.character.charactersheetfeat.push({
         featName: "",
-        featValue: ""
+        featValue: "",
       });
     },
     removeFeat(index) {
       this.character.charactersheetfeat.splice(index, 1);
-    }
+    },
   },
   async asyncData({ $axios, params }) {
     let character = await $axios.$get("/sheets/charactersheet/" + params.id);
 
     return {
-      character: character
+      character: character,
     };
   },
   mounted() {
     this.checkIsOwner();
-  }
+  },
 };
 </script>
 
@@ -210,5 +200,13 @@ export default {
 }
 .create-btn {
   padding-top: 10px;
+}
+
+.name {
+  font-size: 2rem;
+}
+
+.default-text {
+  font-size: 1.2rem;
 }
 </style>

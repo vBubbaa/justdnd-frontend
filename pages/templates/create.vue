@@ -15,6 +15,7 @@
           <v-text-field
             filled
             color="#06ba63"
+            type="url"
             v-model="template.oneshoturl"
             :rules="rules.urlRules"
             :counter="120"
@@ -28,13 +29,7 @@
               color="#06ba63"
               placeholder="Feat Name"
             >
-              <v-btn
-                slot="append"
-                class="ma-2"
-                color="#de7679"
-                dark
-                @click="removeFeat(i)"
-              >
+              <v-btn slot="append" class="ma-2" color="#de7679" dark @click="removeFeat(i)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-text-field>
@@ -54,12 +49,7 @@
             </v-btn>
           </v-row>
           <v-row justify="center" class="create-btn">
-            <v-btn
-              color="#06ba63"
-              width="80%"
-              class="mr-4"
-              @click.prevent="postTemplate()"
-            >
+            <v-btn color="#06ba63" width="80%" class="mr-4" @click.prevent="postTemplate()">
               Create Template
               <v-icon>mdi-file-outline</v-icon>
             </v-btn>
@@ -81,24 +71,29 @@ export default {
         templatefeat: [
           {
             featName: "",
-            featVal: ""
-          }
-        ]
+            featVal: "",
+          },
+        ],
       },
       valid: true,
       rules: {
         nameRules: [
-          v => !!v || "One Shot name is required",
-          v => (v && v.length <= 120) || "Name must be less than 120 characters"
+          (v) => !!v || "One Shot name is required",
+          (v) =>
+            (v && v.length <= 120) || "Name must be less than 120 characters",
         ],
         urlRules: [
-          v => {
+          (v) => {
             if (v)
               return v.length <= 300 || "Url must be less than 300 characters";
             else return true;
-          }
-        ]
-      }
+          },
+          (v) =>
+            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
+              v
+            ) || "URL format is incorrect.",
+        ],
+      },
     };
   },
 
@@ -108,10 +103,10 @@ export default {
       if (this.$refs.form.validate()) {
         return this.$axios
           .$post("/sheets/template/create/", this.template)
-          .then(res => {
+          .then((res) => {
             this.$router.push({
               name: "user-slug",
-              params: { slug: this.$auth.user.username }
+              params: { slug: this.$auth.user.username },
             });
           });
       }
@@ -120,12 +115,12 @@ export default {
     addFeat() {
       this.template.templatefeat.push({
         featName: "",
-        featValue: ""
+        featValue: "",
       });
     },
     removeFeat(index) {
       this.template.templatefeat.splice(index, 1);
-    }
+    },
   },
 
   computed: {
@@ -133,8 +128,8 @@ export default {
       if (this.$store.state.templateFeats.length > 0) {
         return this.$state.templateFeats;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

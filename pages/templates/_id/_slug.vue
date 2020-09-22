@@ -29,13 +29,7 @@
                 color="#06ba63"
                 placeholder="Feat Name"
               >
-                <v-btn
-                  slot="append"
-                  class="ma-2"
-                  color="#de7679"
-                  dark
-                  @click="removeFeat(i)"
-                >
+                <v-btn slot="append" class="ma-2" color="#de7679" dark @click="removeFeat(i)">
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
               </v-text-field>
@@ -56,23 +50,13 @@
             </v-row>
 
             <v-row justify="center" class="create-btn">
-              <v-btn
-                color="#06ba63"
-                width="80%"
-                class="mr-4"
-                @click.prevent="updateTemplate()"
-              >
+              <v-btn color="#06ba63" width="80%" class="mr-4" @click.prevent="updateTemplate()">
                 Update Template
                 <v-icon>mdi-sword-cross</v-icon>
               </v-btn>
             </v-row>
             <v-row justify="center" class="create-btn">
-              <v-btn
-                color="#06ba63"
-                width="80%"
-                class="mr-4"
-                @click.prevent="createFromTemplate()"
-              >
+              <v-btn color="#06ba63" width="80%" class="mr-4" @click.prevent="createFromTemplate()">
                 Use this template
                 <v-icon>mdi-sword-cross</v-icon>
               </v-btn>
@@ -83,22 +67,32 @@
     </v-row>
     <v-sheet class="creator-base" v-else>
       <v-row justify="center">
-        <v-col cols="12" class="text-center">{{ template.oneshot }}</v-col>
+        <v-col cols="12" class="text-center name">{{ template.oneshot }}</v-col>
       </v-row>
       <v-divider></v-divider>
       <v-row>
-        <v-col cols="12">URL: {{ template.oneshoturl }}</v-col>
+        <v-col cols="12" class="default-text">URL: {{ template.oneshoturl }}</v-col>
       </v-row>
       <v-row v-for="(feat, index) in template.templatefeat" :key="index">
-        <v-col cols="6">{{ feat.featName }}</v-col>
-        <v-col cols="6">{{ feat.featVal }}</v-col>
+        <v-col cols="6" class="default-text">{{ feat.featName }}</v-col>
+        <v-col cols="6" class="default-text">{{ feat.featVal }}</v-col>
       </v-row>
+      <v-divider></v-divider>
       <v-row>
-        <v-col>
+        <v-col class="default-text">
+          Made by:
+          <nuxt-link
+            class="user-link"
+            :to="{ name: 'user-slug', params: { slug: template.user } }"
+          >{{ template.user }}</nuxt-link>
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-col cols="12">
           <v-btn
             color="#06ba63"
-            width="80%"
-            class="mr-4"
+            width="100%"
+            class="text-center"
             @click.prevent="createFromTemplate()"
           >
             Use this template
@@ -114,26 +108,27 @@
 export default {
   name: "charactersheetdetail",
   auth: false,
-  data: function() {
+  data: function () {
     return {
       isOwner: false,
       valid: true,
       rules: {
         nameRules: [
-          v => !!v || "One shot name is required",
-          v => (v && v.length <= 120) || "Name must be less than 120 characters"
+          (v) => !!v || "One shot name is required",
+          (v) =>
+            (v && v.length <= 120) || "Name must be less than 120 characters",
         ],
         urlRules: [
-          v => {
+          (v) => {
             if (v)
               return (
                 v.length <= 300 ||
                 "One shot url must be less that 300 characters"
               );
             else return true;
-          }
-        ]
-      }
+          },
+        ],
+      },
     };
   },
   methods: {
@@ -142,10 +137,10 @@ export default {
       if (this.$refs.form.validate()) {
         return this.$axios
           .$put(`/sheets/template/${this.template.id}/`, this.template)
-          .then(res => {
+          .then((res) => {
             this.$router.push({
               name: "user-slug",
-              params: { slug: this.$auth.user.username }
+              params: { slug: this.$auth.user.username },
             });
           });
       }
@@ -157,7 +152,7 @@ export default {
         .then(
           this.$router.push({
             name: "user-slug",
-            params: { slug: this.$auth.user.username }
+            params: { slug: this.$auth.user.username },
           })
         );
     },
@@ -176,7 +171,7 @@ export default {
     addFeat() {
       this.template.templatefeat.push({
         featName: "",
-        featValue: ""
+        featValue: "",
       });
     },
     removeFeat(index) {
@@ -185,18 +180,18 @@ export default {
     createFromTemplate() {
       this.$store.commit("SET_TEMPLATE_FEATS", this.template.templatefeat);
       this.$router.push({ name: "charactersheets-create" });
-    }
+    },
   },
   async asyncData({ $axios, params }) {
     let template = await $axios.$get("/sheets/template/" + params.id);
 
     return {
-      template: template
+      template: template,
     };
   },
   mounted() {
     this.checkIsOwner();
-  }
+  },
 };
 </script>
 
@@ -211,5 +206,17 @@ export default {
 }
 .create-btn {
   padding-top: 10px;
+}
+
+.name {
+  font-size: 2rem;
+}
+
+.default-text {
+  font-size: 1.2rem;
+}
+
+.user-link {
+  color: #06ba63 !important;
 }
 </style>
