@@ -20,7 +20,7 @@
     </v-row>
     <div v-if="!$fetchState.pending">
       <v-row justify="center">
-        <v-col cols="6" v-for="t in templates.data" :key="t.id" class="text-center">
+        <v-col cols="12" sm="12" md="6" v-for="t in templates.data" :key="t.id" class="text-center">
           <TemplateSearchCard :template="t" />
         </v-col>
       </v-row>

@@ -7,15 +7,10 @@
     <v-divider></v-divider>
     <v-card-actions>
       <v-list-item class="grow">
-        <v-list-item-avatar color="grey darken-3">
-          <v-img
-            class="elevation-6"
-            src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-          ></v-img>
-        </v-list-item-avatar>
-
         <v-list-item-content>
-          <v-list-item-title>{{ template.user }}</v-list-item-title>
+          <nuxt-link class="user-link" :to="{ name: 'user-slug', params: { slug: template.user } }">
+            <v-list-item-title class="user-name">{{ template.user }}</v-list-item-title>
+          </nuxt-link>
         </v-list-item-content>
 
         <v-row align="center" justify="end">
@@ -57,4 +52,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.user-link {
+  color: #06ba63 !important;
+}
+
+.user-name {
+  width: fit-content;
+}
+</style>

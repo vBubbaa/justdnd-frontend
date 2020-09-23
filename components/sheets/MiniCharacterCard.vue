@@ -1,10 +1,5 @@
 <template>
-  <v-card
-    class="mx-auto d-flex flex-column"
-    max-width="344"
-    height="300"
-    color="#ffffff"
-  >
+  <v-card class="mx-auto d-flex flex-column" max-width="344" height="200" color="#ffffff">
     <v-card-text>
       <div class="card-text">{{ character.name }}</div>
       <v-divider></v-divider>
@@ -20,13 +15,7 @@
       >
         <v-btn text color="#06ba63">View</v-btn>
       </nuxt-link>
-      <v-btn
-        text
-        color="red"
-        v-if="checkIsOwner()"
-        @click="deleteCharacter(character)"
-        >Delete</v-btn
-      >
+      <v-btn text color="red" v-if="checkIsOwner()" @click="deleteCharacter(character)">Delete</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -35,7 +24,7 @@
 export default {
   name: "minicharactercard",
   props: {
-    character: Object
+    character: Object,
   },
   methods: {
     // Check if the sheet belongs to the logged in user
@@ -53,8 +42,8 @@ export default {
 
     deleteCharacter(character) {
       this.$emit("deletecharacter", character);
-    }
-  }
+    },
+  },
 };
 </script>
 
