@@ -9,7 +9,7 @@
       <v-col cols="6">Characters</v-col>
       <v-col cols="6">
         Sheets:
-        <span class="count">{{ characterSheetCount }}</span>/
+        <span class="count">{{ characterSheetCount }}</span>&nbsp;/
         <span v-if="!userOverview.verified">10</span>
         <span v-else>&#8734;</span>
       </v-col>
@@ -17,7 +17,7 @@
     <v-row
       justify="center"
       class="text-center"
-      v-if="(checkIsOwner() && limitChecker()) || userOverview.verified"
+      v-if="(checkIsOwner() && limitChecker()) || (userOverview.verified && checkIsOwner())"
     >
       <v-col cols="12">
         <v-btn text outlined color="#ffffff">
@@ -35,9 +35,19 @@
     </v-row>
     <v-divider></v-divider>
     <v-row justify="center" class="text-center">
-      <v-col cols="12">Created Templates</v-col>
+      <v-col cols="6">Created Templates</v-col>
+      <v-col cols="6">
+        Templates:
+        <span class="count">{{ templateCount }}</span>&nbsp;/
+        <span v-if="!userOverview.verified">10</span>
+        <span v-else>&#8734;</span>
+      </v-col>
     </v-row>
-    <v-row justify="center" class="text-center" v-if="checkIsOwner()">
+    <v-row
+      justify="center"
+      class="text-center"
+      v-if="(checkIsOwner() && templateLimitChecker()) || (userOverview.verified && checkIsOwner())"
+    >
       <v-col cols="12">
         <v-btn text outlined color="#ffffff">
           <nuxt-link :to="{ name: 'templates-create' }" class="create-link">
@@ -66,6 +76,7 @@ export default {
   data() {
     return {
       characterSheetCount: null,
+      templateCount: null,
       characters: [],
       templates: [],
     };
@@ -103,6 +114,7 @@ export default {
             })
           )
         );
+      this.templateCount -= 1;
     },
 
     // Check if the sheet belongs to the logged in user
@@ -120,6 +132,14 @@ export default {
 
     limitChecker() {
       if (this.characterSheetCount < 10) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    templateLimitChecker() {
+      if (this.templateCount < 10) {
         return true;
       } else {
         return false;
@@ -145,6 +165,7 @@ export default {
 
   created() {
     this.characterSheetCount = this.characters.length;
+    this.templateCount = this.templates.length;
   },
 };
 </script>
