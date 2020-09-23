@@ -20,6 +20,14 @@
             <v-text-field
               filled
               color="#06ba63"
+              v-model="user.email"
+              :rules="rules.emailRules"
+              label="Email"
+              required
+            ></v-text-field>
+            <v-text-field
+              filled
+              color="#06ba63"
               v-model="user.password"
               :rules="rules.passwordRules"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
@@ -71,6 +79,10 @@ export default {
             (v && v.length <= 120) || "Name must be 150 characters or less.",
         ],
         passwordRules: [(v) => !!v || "Password is required"],
+        emailRules: [
+          (v) => !!v || "E-mail is required",
+          (v) => /.+@.+/.test(v) || "E-mail must be valid",
+        ],
       },
     };
   },
