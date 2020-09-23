@@ -1,15 +1,16 @@
 <template>
   <v-container>
     <v-row justify="center" class="text-center">
-      <v-col cols="12">Characters</v-col>
+      <v-col cols="6">Characters</v-col>
+      <v-col cols="6">
+        Sheets:
+        <span class="count">{{ characterSheetCount }}</span>/10
+      </v-col>
     </v-row>
-    <v-row justify="center" class="text-center" v-if="checkIsOwner()">
+    <v-row justify="center" class="text-center" v-if="checkIsOwner() && limitChecker()">
       <v-col cols="12">
         <v-btn text outlined color="#ffffff">
-          <nuxt-link
-            :to="{ name: 'charactersheets-create' }"
-            class="create-link"
-          >
+          <nuxt-link :to="{ name: 'charactersheets-create' }" class="create-link">
             Create New Character
             <v-icon>mdi-sword-cross</v-icon>
           </nuxt-link>
@@ -17,15 +18,7 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col
-        cols="12"
-        sm="12"
-        md="6"
-        lg="4"
-        xl="4"
-        v-for="c in characters"
-        :key="c.id"
-      >
+      <v-col cols="12" sm="12" md="6" lg="4" xl="4" v-for="c in characters" :key="c.id">
         <MiniCharacterCard :character="c" @deletecharacter="deleteCharacter" />
       </v-col>
     </v-row>
@@ -44,20 +37,8 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col
-        cols="12"
-        sm="12"
-        md="6"
-        lg="4"
-        xl="4"
-        v-for="t in templates"
-        :key="t.id"
-      >
-        <MiniTemplateCard
-          :template="t"
-          :key="t.id"
-          @deletetemplate="deleteTemplate"
-        />
+      <v-col cols="12" sm="12" md="6" lg="4" xl="4" v-for="t in templates" :key="t.id">
+        <MiniTemplateCard :template="t" :key="t.id" @deletetemplate="deleteTemplate" />
       </v-col>
     </v-row>
   </v-container>
@@ -73,30 +54,31 @@ export default {
 
   data() {
     return {
+      characterSheetCount: null,
       characters: [],
-      templates: []
+      templates: [],
     };
   },
 
   components: {
     MiniCharacterCard,
-    MiniTemplateCard
+    MiniTemplateCard,
   },
 
   methods: {
     deleteCharacter(e) {
-      console.log(e);
       this.$axios
         .$delete(
           `http://127.0.0.1:8000/api/sheets/charactersheet/${e.id}/delete/`
         )
         .then(
           this.characters.splice(
-            this.characters.findIndex(function(i) {
+            this.characters.findIndex(function (i) {
               return i.id === e.id;
             })
           )
         );
+      this.characterSheetCount -= 1;
     },
 
     deleteTemplate(e) {
@@ -105,7 +87,7 @@ export default {
         .$delete(`http://127.0.0.1:8000/api/sheets/template/${e.id}/delete/`)
         .then(
           this.templates.splice(
-            this.templates.findIndex(function(i) {
+            this.templates.findIndex(function (i) {
               return i.id === e.id;
             })
           )
@@ -123,7 +105,15 @@ export default {
       } else {
         return false;
       }
-    }
+    },
+
+    limitChecker() {
+      if (this.characterSheetCount < 10) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 
   async asyncData({ $axios, params }) {
@@ -134,14 +124,22 @@ export default {
 
     return {
       characters: characters,
-      templates: templates
+      templates: templates,
     };
-  }
+  },
+
+  created() {
+    this.characterSheetCount = this.characters.length;
+  },
 };
 </script>
 
 <style scoped>
 .create-link {
+  color: #06ba63 !important;
+}
+
+.count {
   color: #06ba63 !important;
 }
 </style>

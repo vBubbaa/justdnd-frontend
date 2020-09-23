@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <v-row v-if="error.err" justify="center">
+      <v-col cols="10">
+        <v-alert type="error">{{ error.message }}</v-alert>
+      </v-col>
+    </v-row>
     <v-row justify="center">
       <v-sheet class="creator-base">
         <v-form ref="form" v-model="valid" lazy-validation>
@@ -73,6 +78,10 @@ export default {
   name: "createcharactersheet",
   data() {
     return {
+      error: {
+        err: false,
+        message: "",
+      },
       character: {
         name: null,
         bio: null,
@@ -112,10 +121,15 @@ export default {
             this.character
           )
           .then((res) => {
+            console.log(res);
             this.$router.push({
               name: "user-slug",
               params: { slug: this.$auth.user.username },
             });
+          })
+          .catch((err) => {
+            this.error.err = true;
+            this.error.message = err.response.data.detail;
           });
       }
     },
