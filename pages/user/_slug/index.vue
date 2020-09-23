@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <v-row v-if="userOverview.verified">
+      <v-col cols="12">
+        <v-icon color="#06ba63">mdi-check-decagram</v-icon>&nbsp;Verified User
+      </v-col>
+    </v-row>
     <v-row justify="center" class="text-center">
       <v-col cols="6">Characters</v-col>
       <v-col cols="6">
@@ -121,10 +126,14 @@ export default {
       `/sheets/charactersheetuser/list/${params.slug}`
     );
     let templates = await $axios.$get(`/sheets/template/list/${params.slug}/`);
+    let userOverview = await $axios.$get(
+      `/user/fetchuseroverview/${params.slug}/`
+    );
 
     return {
       characters: characters,
       templates: templates,
+      userOverview: userOverview,
     };
   },
 
