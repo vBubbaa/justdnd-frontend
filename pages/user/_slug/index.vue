@@ -9,10 +9,16 @@
       <v-col cols="6">Characters</v-col>
       <v-col cols="6">
         Sheets:
-        <span class="count">{{ characterSheetCount }}</span>/10
+        <span class="count">{{ characterSheetCount }}</span>/
+        <span v-if="!userOverview.verified">10</span>
+        <span v-else>&#8734;</span>
       </v-col>
     </v-row>
-    <v-row justify="center" class="text-center" v-if="checkIsOwner() && limitChecker()">
+    <v-row
+      justify="center"
+      class="text-center"
+      v-if="(checkIsOwner() && limitChecker()) || userOverview.verified"
+    >
       <v-col cols="12">
         <v-btn text outlined color="#ffffff">
           <nuxt-link :to="{ name: 'charactersheets-create' }" class="create-link">
