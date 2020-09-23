@@ -88,10 +88,17 @@ export default {
               return v.length <= 300 || "Url must be less than 300 characters";
             else return true;
           },
-          (v) =>
-            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
-              v
-            ) || "URL format is incorrect.",
+          (v) => {
+            if (v && v.length > 0) {
+              return (
+                /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
+                  v
+                ) || "URL format is incorrect."
+              );
+            } else {
+              return true;
+            }
+          },
         ],
       },
     };
