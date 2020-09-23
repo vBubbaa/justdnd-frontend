@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <v-row v-if="error" justify="center">
+      <v-col cols="10">
+        <v-alert type="error">Invalid login credentials!</v-alert>
+      </v-col>
+    </v-row>
     <v-row justify="center">
       <v-col cols="10">
         <v-sheet class="creator-base">
@@ -53,6 +58,7 @@ export default {
   data: function () {
     return {
       show: false,
+      error: false,
       user: {},
       valid: true,
       rules: {
@@ -67,7 +73,7 @@ export default {
         await this.$auth.loginWith("local", { data: this.user });
         console.log("success login");
       } catch (err) {
-        console.log(err);
+        this.error = true;
       }
     },
   },
