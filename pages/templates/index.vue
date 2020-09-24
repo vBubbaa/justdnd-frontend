@@ -50,6 +50,19 @@ import TemplateSearchCard from "../../components/templates/TemplateSearchCard";
 
 export default {
   name: "templateindex",
+  head() {
+    return {
+      title: `JustRollDnD | Templates`,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "description",
+          content: `Browse pre-made templates created on JustRollDnD. Find and share the templates with friends and use them in your next One-Shot!`,
+        },
+      ],
+    };
+  },
   auth: false,
   components: {
     TemplateSearchCard,

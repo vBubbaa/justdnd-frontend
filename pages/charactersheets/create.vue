@@ -76,6 +76,19 @@
 <script>
 export default {
   name: "createcharactersheet",
+  head() {
+    return {
+      title: `JustRollDnD | Character Create`,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "description",
+          content: `Create a custom character through JustRollDnD. Save and edit it later, or keep it open and edit it while you play!`,
+        },
+      ],
+    };
+  },
   data() {
     return {
       error: {

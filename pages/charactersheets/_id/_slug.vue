@@ -106,6 +106,19 @@
 <script>
 export default {
   name: "charactersheetdetail",
+  head() {
+    return {
+      title: `JustRollDnD | Character - ${this.character.name}`,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "description",
+          content: `A JustRollDnD created character, ${this.character.name}. About this character: ${this.character.bio}. Created by: ${this.character.user}`,
+        },
+      ],
+    };
+  },
   auth: false,
   data: function () {
     return {

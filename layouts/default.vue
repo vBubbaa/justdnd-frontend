@@ -4,9 +4,11 @@
     <v-navigation-drawer v-model="drawer" fixed app temporary>
       <v-list>
         <v-list-item>
-          <nuxt-link to="/templates">
-            Templates
-          </nuxt-link>
+          <nuxt-link to="/templates">Templates</nuxt-link>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item>
+          <nuxt-link to="/about">About</nuxt-link>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -53,7 +55,7 @@
         <v-row justify="center" class="text-center">
           <v-col cols="12">
             <!-- Contact links -->
-            <a href target="_blank">
+            <a href="https://discord.gg/Pdfehc9" target="_blank">
               <v-btn class="mx-4" icon>
                 <v-icon size="30px" color="#06ba63">mdi-discord</v-icon>
               </v-btn>
@@ -65,7 +67,11 @@
         <v-row justify="center" class="text-center">
           <v-col cols="12">
             A project by
-            <a href="https://twitter.com/VBubbaa" target="_blank">vBubbaa</a>
+            <a
+              class="greenlink"
+              href="https://twitter.com/VBubbaa"
+              target="_blank"
+            >vBubbaa</a>
             <v-icon color="#ed254e">mdi-heart</v-icon>
           </v-col>
         </v-row>
@@ -80,9 +86,9 @@ export default {
     return {
       drawer: false,
       fixed: false,
-      title: "JustDnD"
+      title: "JustRollDnD",
     };
-  }
+  },
 };
 </script>
 
@@ -94,6 +100,10 @@ export default {
 
 .main-wrap {
   background-color: #000c14;
+}
+
+.greenlink {
+  color: #06ba63 !important;
 }
 </style>
 

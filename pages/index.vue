@@ -4,11 +4,7 @@
       <v-col cols="12" sm="6" class="d-flex justify-center align-center">
         <img src="~/assets/d20.png" width="150" height="150" alt="D20 Dice" />
       </v-col>
-      <v-col
-        cols="12"
-        sm="6"
-        class="d-flex justify-center align-center flex-column"
-      >
+      <v-col cols="12" sm="6" class="d-flex justify-center align-center flex-column">
         <div class="main-text">Character Sheets</div>
         <div class="subtext text-center">
           Easily create character sheets for any one shot you are playing and
@@ -18,11 +14,7 @@
     </v-row>
     <v-divider></v-divider>
     <v-row justify="center" class="index-row">
-      <v-col
-        cols="12"
-        sm="6"
-        class="d-flex justify-center align-center flex-column"
-      >
+      <v-col cols="12" sm="6" class="d-flex justify-center align-center flex-column">
         <div class="main-text">Templates</div>
         <div class="subtext text-center">
           Pre-made templates made for specific one-shots. Browse templates to
@@ -39,7 +31,20 @@
 
 <script>
 export default {
-  auth: false
+  auth: false,
+  head() {
+    return {
+      title: `JustRollDnD | Home`,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "description",
+          content: `JustRollDnd allows users to store and save custom character sheets. Create sheets with custom feats, save and access them later.`,
+        },
+      ],
+    };
+  },
 };
 </script>
 

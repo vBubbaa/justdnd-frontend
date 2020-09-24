@@ -107,6 +107,19 @@
 <script>
 export default {
   name: "charactersheetdetail",
+  head() {
+    return {
+      title: `JustRollDnD | Template - ${this.template.oneshot}`,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "description",
+          content: `A template made using JustRollDnD and made for the oneshot ${this.template.oneshot}.`,
+        },
+      ],
+    };
+  },
   auth: false,
   data: function () {
     return {

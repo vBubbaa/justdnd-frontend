@@ -72,6 +72,19 @@ import MiniTemplateCard from "../../../components/templates/MiniTemplateCard";
 export default {
   name: "userdetail",
   auth: false,
+  head() {
+    return {
+      title: `JustRollDnD | User - ${this.$route.params.slug}`,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "description",
+          content: `JustRollDnD user: ${this.$route.params.slug}. Browse ${this.$route.params.slug}'s character sheets and templates.`,
+        },
+      ],
+    };
+  },
 
   data() {
     return {

@@ -68,6 +68,19 @@
 <script>
 export default {
   name: "createcharactersheet",
+  head() {
+    return {
+      title: `JustRollDnD | Create Template`,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "description",
+          content: `Create a template and share it with others for your next One-Shot. Easily create a customizable template for others to use while they play.`,
+        },
+      ],
+    };
+  },
   data() {
     return {
       error: {

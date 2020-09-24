@@ -64,6 +64,19 @@
 <script>
 export default {
   name: "register",
+  head() {
+    return {
+      title: `JustRollDnD | Register`,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "description",
+          content: `Register for JustRollDnD and get started creating characters and using templates you need.`,
+        },
+      ],
+    };
+  },
   auth: false,
   data: function () {
     return {

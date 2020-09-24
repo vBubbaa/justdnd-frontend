@@ -55,6 +55,19 @@
 <script>
 export default {
   name: "login",
+  head() {
+    return {
+      title: `JustRollDnD | Login`,
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: "description",
+          name: "description",
+          content: `Login to JustRollDnD and get started creating characters and using templates you need.`,
+        },
+      ],
+    };
+  },
   data: function () {
     return {
       show: false,
