@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <v-row v-if="error" justify="center">
-      <v-col cols="10">
-        <v-alert type="error">Invalid signup credentials!</v-alert>
+    <v-row v-if="errStatus" justify="center">
+      <v-col cols="10" v-for="(k, v) in errors" :key="v">
+        <v-alert type="error">{{ k }}</v-alert>
       </v-col>
     </v-row>
     <v-row justify="center">
@@ -67,7 +67,8 @@ export default {
   auth: false,
   data: function () {
     return {
-      error: false,
+      errStatus: false,
+      errors: [],
       show: false,
       user: {},
       passwordCheck: "",
@@ -88,6 +89,8 @@ export default {
   },
   methods: {
     async register() {
+      this.errors = [];
+      this.errStatus = false;
       if (this.$refs.form.validate()) {
         return this.$axios
           .$post(`/user/register/`, this.user)
@@ -97,7 +100,19 @@ export default {
             });
           })
           .catch((err) => {
-            this.error = true;
+            console.log(err.response.data);
+            if (err.response.data["username"]) {
+              this.errors.push("This username is already in use.");
+              this.errStatus = true;
+            }
+            if (err.response.data["email"]) {
+              this.errors.push("This email is already in use.");
+              this.errStatus = true;
+            }
+            if (err.response.data["password"]) {
+              this.errors.push("Password must be at least 8 characters long");
+              this.errStatus = true;
+            }
           });
       }
     },
