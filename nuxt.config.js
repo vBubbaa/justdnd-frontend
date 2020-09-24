@@ -1,5 +1,7 @@
 import colors from "vuetify/es5/util/colors";
 
+let development = process.env.NODE_ENV !== "production";
+
 export default {
   /*
    ** Nuxt rendering mode
@@ -48,7 +50,9 @@ export default {
    ** Axios object
    */
   axios: {
-    baseURL: "http://127.0.0.1:8000/api"
+    baseURL: development
+      ? "http://127.0.0.1:8000/api"
+      : "https://justrolldnd.herokuapp.com/"
   },
   /*
    ** Auth Config
