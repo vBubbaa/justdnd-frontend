@@ -52,7 +52,7 @@ export default {
   axios: {
     baseURL: development
       ? "http://127.0.0.1:8000/api"
-      : "https://justrolldnd.herokuapp.com/"
+      : "https://justrolldnd.herokuapp.com/api"
   },
   /*
    ** Auth Config
