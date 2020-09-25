@@ -42,7 +42,13 @@
               color="#06ba63"
               placeholder="Feat Name"
             >
-              <v-btn slot="append" class="ma-2" color="#de7679" dark @click="removeFeat(i)">
+              <v-btn
+                slot="append"
+                class="ma-2"
+                color="#de7679"
+                dark
+                @click="removeFeat(i)"
+              >
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-text-field>
@@ -62,7 +68,12 @@
             </v-btn>
           </v-row>
           <v-row justify="center" class="create-btn">
-            <v-btn color="#06ba63" width="80%" class="mr-4" @click.prevent="postCharacter()">
+            <v-btn
+              color="#06ba63"
+              width="80%"
+              class="mr-4"
+              @click.prevent="postCharacter()"
+            >
               Create Character
               <v-icon>mdi-sword-cross</v-icon>
             </v-btn>
@@ -84,16 +95,16 @@ export default {
         {
           hid: "description",
           name: "description",
-          content: `Create a custom character through JustRollDnD. Save and edit it later, or keep it open and edit it while you play!`,
-        },
-      ],
+          content: `Create a custom character through JustRollDnD. Save and edit it later, or keep it open and edit it while you play!`
+        }
+      ]
     };
   },
   data() {
     return {
       error: {
         err: false,
-        message: "",
+        message: ""
       },
       character: {
         name: null,
@@ -102,25 +113,24 @@ export default {
         charactersheetfeat: [
           {
             featName: "",
-            featVal: "",
-          },
-        ],
+            featVal: ""
+          }
+        ]
       },
       valid: true,
       rules: {
         nameRules: [
-          (v) => !!v || "Name is required",
-          (v) =>
-            (v && v.length <= 120) || "Name must be less than 120 characters",
+          v => !!v || "Name is required",
+          v => (v && v.length <= 120) || "Name must be less than 120 characters"
         ],
         bioRules: [
-          (v) => {
+          v => {
             if (v)
               return v.length <= 300 || "Bio must be less that 300 characters";
             else return true;
-          },
-        ],
-      },
+          }
+        ]
+      }
     };
   },
 
@@ -129,18 +139,15 @@ export default {
       // Check if the fields are valid, then post the character
       if (this.$refs.form.validate()) {
         return this.$axios
-          .$post(
-            "http://127.0.0.1:8000/api/sheets/charactersheet/create/",
-            this.character
-          )
-          .then((res) => {
+          .$post("/api/sheets/charactersheet/create/", this.character)
+          .then(res => {
             console.log(res);
             this.$router.push({
               name: "user-slug",
-              params: { slug: this.$auth.user.username },
+              params: { slug: this.$auth.user.username }
             });
           })
-          .catch((err) => {
+          .catch(err => {
             this.error.err = true;
             this.error.message = err.response.data.detail;
           });
@@ -150,12 +157,12 @@ export default {
     addFeat() {
       this.character.charactersheetfeat.push({
         featName: "",
-        featValue: "",
+        featValue: ""
       });
     },
     removeFeat(index) {
       this.character.charactersheetfeat.splice(index, 1);
-    },
+    }
   },
 
   created() {
@@ -172,8 +179,8 @@ export default {
   computed: {
     templateFeats() {
       return this.$store.state.templateFeats;
-    },
-  },
+    }
+  }
 };
 </script>
 

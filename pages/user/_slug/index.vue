@@ -9,7 +9,8 @@
       <v-col cols="6">Characters</v-col>
       <v-col cols="6">
         Sheets:
-        <span class="count">{{ characterSheetCount }}</span>&nbsp;/
+        <span class="count">{{ characterSheetCount }}</span
+        >&nbsp;/
         <span v-if="!userOverview.verified">10</span>
         <span v-else>&#8734;</span>
       </v-col>
@@ -17,11 +18,17 @@
     <v-row
       justify="center"
       class="text-center"
-      v-if="(checkIsOwner() && limitChecker()) || (userOverview.verified && checkIsOwner())"
+      v-if="
+        (checkIsOwner() && limitChecker()) ||
+          (userOverview.verified && checkIsOwner())
+      "
     >
       <v-col cols="12">
         <v-btn text outlined color="#ffffff">
-          <nuxt-link :to="{ name: 'charactersheets-create' }" class="create-link">
+          <nuxt-link
+            :to="{ name: 'charactersheets-create' }"
+            class="create-link"
+          >
             Create New Character
             <v-icon>mdi-sword-cross</v-icon>
           </nuxt-link>
@@ -29,7 +36,15 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="12" sm="12" md="6" lg="4" xl="4" v-for="c in characters" :key="c.id">
+      <v-col
+        cols="12"
+        sm="12"
+        md="6"
+        lg="4"
+        xl="4"
+        v-for="c in characters"
+        :key="c.id"
+      >
         <MiniCharacterCard :character="c" @deletecharacter="deleteCharacter" />
       </v-col>
     </v-row>
@@ -38,7 +53,8 @@
       <v-col cols="6">Created Templates</v-col>
       <v-col cols="6">
         Templates:
-        <span class="count">{{ templateCount }}</span>&nbsp;/
+        <span class="count">{{ templateCount }}</span
+        >&nbsp;/
         <span v-if="!userOverview.verified">10</span>
         <span v-else>&#8734;</span>
       </v-col>
@@ -46,7 +62,10 @@
     <v-row
       justify="center"
       class="text-center"
-      v-if="(checkIsOwner() && templateLimitChecker()) || (userOverview.verified && checkIsOwner())"
+      v-if="
+        (checkIsOwner() && templateLimitChecker()) ||
+          (userOverview.verified && checkIsOwner())
+      "
     >
       <v-col cols="12">
         <v-btn text outlined color="#ffffff">
@@ -58,8 +77,20 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="12" sm="12" md="6" lg="4" xl="4" v-for="t in templates" :key="t.id">
-        <MiniTemplateCard :template="t" :key="t.id" @deletetemplate="deleteTemplate" />
+      <v-col
+        cols="12"
+        sm="12"
+        md="6"
+        lg="4"
+        xl="4"
+        v-for="t in templates"
+        :key="t.id"
+      >
+        <MiniTemplateCard
+          :template="t"
+          :key="t.id"
+          @deletetemplate="deleteTemplate"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -80,9 +111,9 @@ export default {
         {
           hid: "description",
           name: "description",
-          content: `JustRollDnD user: ${this.$route.params.slug}. Browse ${this.$route.params.slug}'s character sheets and templates.`,
-        },
-      ],
+          content: `JustRollDnD user: ${this.$route.params.slug}. Browse ${this.$route.params.slug}'s character sheets and templates.`
+        }
+      ]
     };
   },
 
@@ -91,42 +122,36 @@ export default {
       characterSheetCount: null,
       templateCount: null,
       characters: [],
-      templates: [],
+      templates: []
     };
   },
 
   components: {
     MiniCharacterCard,
-    MiniTemplateCard,
+    MiniTemplateCard
   },
 
   methods: {
     deleteCharacter(e) {
-      this.$axios
-        .$delete(
-          `http://127.0.0.1:8000/api/sheets/charactersheet/${e.id}/delete/`
+      this.$axios.$delete(`/api/sheets/charactersheet/${e.id}/delete/`).then(
+        this.characters.splice(
+          this.characters.findIndex(function(i) {
+            return i.id === e.id;
+          })
         )
-        .then(
-          this.characters.splice(
-            this.characters.findIndex(function (i) {
-              return i.id === e.id;
-            })
-          )
-        );
+      );
       this.characterSheetCount -= 1;
     },
 
     deleteTemplate(e) {
       console.log(e);
-      this.$axios
-        .$delete(`http://127.0.0.1:8000/api/sheets/template/${e.id}/delete/`)
-        .then(
-          this.templates.splice(
-            this.templates.findIndex(function (i) {
-              return i.id === e.id;
-            })
-          )
-        );
+      this.$axios.$delete(`/api/sheets/template/${e.id}/delete/`).then(
+        this.templates.splice(
+          this.templates.findIndex(function(i) {
+            return i.id === e.id;
+          })
+        )
+      );
       this.templateCount -= 1;
     },
 
@@ -157,7 +182,7 @@ export default {
       } else {
         return false;
       }
-    },
+    }
   },
 
   async asyncData({ $axios, params }) {
@@ -172,14 +197,14 @@ export default {
     return {
       characters: characters,
       templates: templates,
-      userOverview: userOverview,
+      userOverview: userOverview
     };
   },
 
   created() {
     this.characterSheetCount = this.characters.length;
     this.templateCount = this.templates.length;
-  },
+  }
 };
 </script>
 
