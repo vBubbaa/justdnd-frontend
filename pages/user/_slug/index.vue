@@ -133,7 +133,7 @@ export default {
 
   methods: {
     deleteCharacter(e) {
-      this.$axios.$delete(`/api/sheets/charactersheet/${e.id}/delete/`).then(
+      this.$axios.$delete(`/sheets/charactersheet/${e.id}/delete/`).then(
         this.characters.splice(
           this.characters.findIndex(function(i) {
             return i.id === e.id;
@@ -145,7 +145,7 @@ export default {
 
     deleteTemplate(e) {
       console.log(e);
-      this.$axios.$delete(`/api/sheets/template/${e.id}/delete/`).then(
+      this.$axios.$delete(`/sheets/template/${e.id}/delete/`).then(
         this.templates.splice(
           this.templates.findIndex(function(i) {
             return i.id === e.id;

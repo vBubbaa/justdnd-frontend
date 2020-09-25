@@ -139,7 +139,7 @@ export default {
       // Check if the fields are valid, then post the character
       if (this.$refs.form.validate()) {
         return this.$axios
-          .$post("/api/sheets/charactersheet/create/", this.character)
+          .$post("/sheets/charactersheet/create/", this.character)
           .then(res => {
             console.log(res);
             this.$router.push({

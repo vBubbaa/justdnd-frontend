@@ -172,7 +172,7 @@ export default {
 
     deleteCharacter() {
       this.$axios
-        .$delete(`/api/sheets/charactersheet/${this.character.id}/delete/`)
+        .$delete(`/sheets/charactersheet/${this.character.id}/delete/`)
         .then(
           this.$router.push({
             name: "user-slug",
