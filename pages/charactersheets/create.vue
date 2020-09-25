@@ -56,7 +56,6 @@
               placeholder="Feat Value"
               :label="feat.featVal"
               v-model="feat.featVal"
-              type="number"
               filled
               color="#06ba63"
             ></v-text-field>

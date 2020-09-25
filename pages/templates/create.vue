@@ -34,7 +34,13 @@
               color="#06ba63"
               placeholder="Feat Name"
             >
-              <v-btn slot="append" class="ma-2" color="#de7679" dark @click="removeFeat(i)">
+              <v-btn
+                slot="append"
+                class="ma-2"
+                color="#de7679"
+                dark
+                @click="removeFeat(i)"
+              >
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-text-field>
@@ -42,7 +48,6 @@
               placeholder="Feat Value"
               :label="feat.featVal"
               v-model="feat.featVal"
-              type="number"
               filled
               color="#06ba63"
             ></v-text-field>
@@ -54,7 +59,12 @@
             </v-btn>
           </v-row>
           <v-row justify="center" class="create-btn">
-            <v-btn color="#06ba63" width="80%" class="mr-4" @click.prevent="postTemplate()">
+            <v-btn
+              color="#06ba63"
+              width="80%"
+              class="mr-4"
+              @click.prevent="postTemplate()"
+            >
               Create Template
               <v-icon>mdi-file-outline</v-icon>
             </v-btn>
@@ -76,16 +86,16 @@ export default {
         {
           hid: "description",
           name: "description",
-          content: `Create a template and share it with others for your next One-Shot. Easily create a customizable template for others to use while they play.`,
-        },
-      ],
+          content: `Create a template and share it with others for your next One-Shot. Easily create a customizable template for others to use while they play.`
+        }
+      ]
     };
   },
   data() {
     return {
       error: {
         err: false,
-        message: "",
+        message: ""
       },
       template: {
         oneshot: null,
@@ -93,24 +103,23 @@ export default {
         templatefeat: [
           {
             featName: "",
-            featVal: "",
-          },
-        ],
+            featVal: ""
+          }
+        ]
       },
       valid: true,
       rules: {
         nameRules: [
-          (v) => !!v || "One Shot name is required",
-          (v) =>
-            (v && v.length <= 120) || "Name must be less than 120 characters",
+          v => !!v || "One Shot name is required",
+          v => (v && v.length <= 120) || "Name must be less than 120 characters"
         ],
         urlRules: [
-          (v) => {
+          v => {
             if (v)
               return v.length <= 300 || "Url must be less than 300 characters";
             else return true;
           },
-          (v) => {
+          v => {
             if (v && v.length > 0) {
               return (
                 /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
@@ -120,9 +129,9 @@ export default {
             } else {
               return true;
             }
-          },
-        ],
-      },
+          }
+        ]
+      }
     };
   },
 
@@ -132,13 +141,13 @@ export default {
       if (this.$refs.form.validate()) {
         return this.$axios
           .$post("/sheets/template/create/", this.template)
-          .then((res) => {
+          .then(res => {
             this.$router.push({
               name: "user-slug",
-              params: { slug: this.$auth.user.username },
+              params: { slug: this.$auth.user.username }
             });
           })
-          .catch((err) => {
+          .catch(err => {
             this.error.err = true;
             this.error.message = err.response.data.detail;
           });
@@ -148,12 +157,12 @@ export default {
     addFeat() {
       this.template.templatefeat.push({
         featName: "",
-        featValue: "",
+        featValue: ""
       });
     },
     removeFeat(index) {
       this.template.templatefeat.splice(index, 1);
-    },
+    }
   },
 
   computed: {
@@ -161,8 +170,8 @@ export default {
       if (this.$store.state.templateFeats.length > 0) {
         return this.$state.templateFeats;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
